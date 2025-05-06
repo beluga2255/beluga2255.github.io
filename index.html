@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Andromeda Search</title>
+  <style>
+    :root {
+      --accent: #8ab4f8;
+      --bg-light: #f1f3f4;
+      --bg-dark: #202124;
+      --text-light: #202124;
+      --text-dark: #e8eaed;
+      --card-light: #ffffff;
+      --card-dark: #303134;
+
+      --bg: var(--bg-light);
+      --text: var(--text-light);
+      --card: var(--card-light);
+    }
+
+    body.dark {
+      --bg: var(--bg-dark);
+      --text: var(--text-dark);
+      --card: var(--card-dark);
+      background-image: url('https://images.pexels.com/photos/110854/pexels-photo-110854.jpeg?cs=srgb&dl=pexels-miriamespacio-110854.jpg&fm=jpg');
+      background-size: cover;
+      background-position: center;
+    }
+
+    body.light {
+      background-image: url('https://www.creativefabrica.com/wp-content/uploads/2021/08/07/Bright-Sunset-Galaxy-space-Background-Graphics-15602370-1.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", "Roboto", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .top-right {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+    }
+
+    .toggle-switch {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .toggle-switch input[type="checkbox"] {
+      width: 40px;
+      height: 20px;
+      appearance: none;
+      background-color: #ccc;
+      border-radius: 20px;
+      position: relative;
+      outline: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .toggle-switch input[type="checkbox"]:checked {
+      background-color: var(--accent);
+    }
+
+    .toggle-switch input[type="checkbox"]::before {
+      content: "";
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background-color: white;
+      border-radius: 50%;
+      top: 1px;
+      left: 1px;
+      transition: transform 0.2s ease;
+    }
+
+    .toggle-switch input[type="checkbox"]:checked::before {
+      transform: translateX(20px);
+    }
+
+    .logo {
+      max-width: 500px;
+      margin-bottom: 1rem;
+    }
+
+    .search {
+      width: 90%;
+      max-width: 600px;
+      background-color: var(--card);
+      border-radius: 999px;
+      padding: 0.8rem 1.2rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .search input {
+      border: none;
+      outline: none;
+      flex: 1;
+      font-size: 1rem;
+      background: transparent;
+      color: var(--text);
+    }
+
+    .shortcuts {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 1rem;
+      width: 90%;
+      max-width: 600px;
+    }
+
+    .shortcut {
+      background-color: var(--card);
+      border-radius: 1rem;
+      padding: 1rem;
+      text-align: center;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 0.9rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1), box-shadow 0.2s ease;
+    }
+
+    .shortcut:hover {
+      transform: scale(1.15);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+  </style>
+</head>
+<body>
+  <div class="top-right">
+    <label class="toggle-switch">
+      <span>Light</span>
+      <input type="checkbox" id="theme-toggle" />
+      <span>Dark</span>
+    </label>
+  </div>
+
+  <img class="logo" id="logo-img" src="" alt="Andromeda Logo" />
+
+  <div class="search">
+    <input type="text" placeholder="Search Anything, Really." onkeydown="if(event.key==='Enter'){window.location.href='https://www.google.com/search?q='+this.value;}"/>
+  </div>
+
+  <div class="shortcuts">
+    <a class="shortcut" href="https://youtube.com">YouTube</a>
+    <a class="shortcut" href="https://reddit.com">Reddit</a>
+    <a class="shortcut" href="https://github.com">GitHub</a>
+    <a class="shortcut" href="https://chat.openai.com">ChatGPT</a>
+  </div>
+
+  <script>
+    const toggle = document.getElementById('theme-toggle');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const logoImg = document.getElementById('logo-img');
+
+    const darkLogo = 'https://media-hosting.imagekit.io/d228e82f76504859/New%20Project(2)(1)(1).png?Expires=1841173305&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=sv4w6h66AaM~77sfHRF~POyLcIaNWTh9G0E3zkOmyRLjHQ1R-VFWfoBBmNB1ixdLFIFJmAPNtnf7Xcr0hgo9uS6TkP3AG~Ex51DRtzcGMAH3lefsbSo9CD7XYioknQ7c8nD8~TsZJH0e5ZIUA6NHFRjFBnFKT6B-R0IkmeMIHwA8MOvFm2q3A5q9Agzi-hO32TcT3jg4TlnkbHi7VObpMGY9LwIgVqIbHFVzHfYNszD0KfYS5mTF5lKLOKIpB5CCKtBQ67L30~jyoOGP2vOQKXRj2aHvpZUlgIytswzVQQgigpQ0-GijnV4GGAkvy24WRhgYmqrbm~67lw2ZrEM6Gw__';
+    const lightLogo = 'https://media-hosting.imagekit.io/f1a01b3ebfa0415d/New%20Project(2)(1)(2).png?Expires=1841173292&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=ecKxSl7TCvHlL7cRETGX3Bzs2rIMU8opTiKQffx952vKkfzSLhLEOcjuwurlQvjUupqX9J6KiVWles7PXk7gUGpBMiQcP2uiKBhDvybsgcOb7vBniqJ6nPzLyOHxfIm3dyc8BscFGZc3kE870~zrm-xgvRc2-cOXGoajz1lrNMeyiwsCqtdRuhRuEMeHPDVsMOTdL3p0ignIiFcCf7zBzCE0DXvC0uJvnnb7p4qMN6D01HAg255BRWSficRKc6089DBVKtEhBrVR-eArzvmeuK8oiqf1UkErnyJ-TbBR9WhLuXdCs0XjwV6EBY57qBh0oWZiNS-qg0zLv3Be4nmFeQ__';
+
+    function applyTheme(darkMode) {
+      document.body.classList.toggle('dark', darkMode);
+      document.body.classList.toggle('light', !darkMode);
+      toggle.checked = darkMode;
+      logoImg.src = darkMode ? darkLogo : lightLogo;
+    }
+
+    toggle.addEventListener('change', () => {
+      applyTheme(toggle.checked);
+    });
+
+    applyTheme(prefersDark.matches);
+  </script>
+</body>
+</html>
