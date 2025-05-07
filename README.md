@@ -11,3 +11,8 @@ I use this extension for firefox: https://www.soeren-hentzschel.at/firefox-webex
 ### Alternative For Chrome Users
 
 For Chrome, I find that this extension works well, and once again, you use https://beluga2255.github.io as the URL: https://chromewebstore.google.com/detail/custom-new-tab-url/mmjbdbjnoablegbkcklggeknkfcjkjia
+
+
+#### ***NOTE:***
+
+This is not a real search engine, it uses google to actually do the searching. It is just a really nice new tab skin.
